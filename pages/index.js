@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../styles/Home.module.css';
+import Link from 'next/link';
 
 import tw from 'tailwind-styled-components';
 
@@ -27,13 +28,15 @@ export default function Home({ accessToken }) {
         </Header>
 
         <ButtonsContainer>
-          <Button>
-            <ButtonImage
-              src="https://i.ibb.co/cyvcpfF/uberx.png"
-              alt="uber-x"
-            />
-            Ride
-          </Button>
+          <Link href="/search" passHref>
+            <Button>
+              <ButtonImage
+                src="https://i.ibb.co/cyvcpfF/uberx.png"
+                alt="uber-x"
+              />
+              Ride
+            </Button>
+          </Link>
           <Button>
             <ButtonImage src="https://i.ibb.co/n776JLm/bike.png" alt="uber-x" />
             2-Wheels
