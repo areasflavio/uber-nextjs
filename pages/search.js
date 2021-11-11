@@ -1,16 +1,19 @@
 import React from 'react';
+import Link from 'next/link';
 
 import tw from 'tailwind-styled-components';
 
 export default function Search() {
   return (
     <Container>
-      <ButtonContainer>
-        <BackButtonImage
-          src="https://img.icons8.com/ios-filled/50/00000/left.png"
-          alt="Back"
-        />
-      </ButtonContainer>
+      <Link href="/" passHref>
+        <ButtonContainer>
+          <BackButtonImage
+            src="https://img.icons8.com/ios-filled/50/00000/left.png"
+            alt="Back"
+          />
+        </ButtonContainer>
+      </Link>
 
       <InputContainer>
         <FromToIcons>
@@ -23,7 +26,7 @@ export default function Search() {
             alt="Line"
           />
           <To
-            src="https://img.icons8.com/windows/50/00000/rectangle.png"
+            src="https://img.icons8.com/windows/50/00000/square-full.png"
             alt="To"
           />
         </FromToIcons>
@@ -32,7 +35,16 @@ export default function Search() {
           <Input placeholder="Enter pickup location" />
           <Input placeholder="Where to?" />
         </InputBox>
+
+        <PlusIcon src="https://img.icons8.com/ios/50/00000/plus-math.png" />
       </InputContainer>
+
+      <SavedPlaces>
+        <StarIcon src="https://img.icons8.com/ios-filled/50/ffffff/star--v1.png" />
+        Saved Places
+      </SavedPlaces>
+
+      <ConfirmButton>Confirm Locations</ConfirmButton>
     </Container>
   );
 }
@@ -52,25 +64,26 @@ const BackButtonImage = tw.img`
 `;
 
 const InputContainer = tw.div` 
-  flex
+  flex items-center
+  px-4 mb-2
   bg-white
 `;
 
 const FromToIcons = tw.div` 
-  flex flex-col
-  w-10
+  flex flex-col items-center
+  w-10 mr-2
 `;
 
 const From = tw.img` 
-
+  h-2.5
 `;
 
 const Line = tw.img` 
-
+  h-10
 `;
 
 const To = tw.img` 
-
+  h-3
 `;
 
 const InputBox = tw.div`
@@ -80,4 +93,27 @@ const InputBox = tw.div`
 const Input = tw.input`
   h-10 my-2 rounded-2 p-2
   bg-gray-200 outline-none border-none
+`;
+
+const PlusIcon = tw.img`
+  w-10 h-10 rounded-full ml-3
+  bg-gray-200
+`;
+
+const SavedPlaces = tw.div`
+  flex items-center 
+  px-4 py-2
+  bg-white 
+`;
+
+const StarIcon = tw.img`
+  w-10 h-10 p-2 rounded-full mr-2
+  bg-gray-400
+`;
+
+const ConfirmButton = tw.button`
+  flex items-center justify-center
+  m-4 p-2
+  text-xl text-white
+   bg-black
 `;
