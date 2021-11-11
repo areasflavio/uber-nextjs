@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-
 import tw from 'tailwind-styled-components';
 
 export default function Search() {
@@ -44,7 +43,9 @@ export default function Search() {
         Saved Places
       </SavedPlaces>
 
-      <ConfirmButton>Confirm Locations</ConfirmButton>
+      <Link href="/confirm" passHref>
+        <ConfirmButton>Confirm Locations</ConfirmButton>
+      </Link>
     </Container>
   );
 }
@@ -113,7 +114,7 @@ const StarIcon = tw.img`
 
 const ConfirmButton = tw.button`
   flex items-center justify-center
-  m-4 p-2
-  text-xl text-white
+  mx-2 my-4 px-4 py-3
+  text-2xl text-white
    bg-black
 `;
