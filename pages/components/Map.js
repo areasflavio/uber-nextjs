@@ -5,6 +5,12 @@ import mapboxgl from '!mapbox-gl';
 export default function Map({ accessToken, pickupCoords, dropoffCoords }) {
   mapboxgl.accessToken = accessToken;
 
+  const addMarker = (map, coords) => {
+    if (coords.length > 0) {
+      new mapboxgl.Marker().setLngLat(coords).addTo(map);
+    }
+  };
+
   useEffect(() => {
     const map = new mapboxgl.Map({
       container: 'map',
@@ -14,23 +20,22 @@ export default function Map({ accessToken, pickupCoords, dropoffCoords }) {
       zoom: 3,
     });
 
-    if (pickupCoords.length > 0 && dropoffCoords.length > 0) {
-      addMarker(map, pickupCoords);
-      addMarker(map, dropoffCoords);
+    if (pickupCoords && dropoffCoords) {
+      if (pickupCoords.length > 0 && dropoffCoords.length > 0) {
+        addMarker(map, pickupCoords);
+        addMarker(map, dropoffCoords);
 
-      map.fitBounds([pickupCoords, dropoffCoords], {
-        padding: 50,
-      });
+        map.fitBounds([pickupCoords, dropoffCoords], {
+          padding: 50,
+        });
+      }
     }
   }, [dropoffCoords, pickupCoords]);
-
-  const addMarker = (map, coords) => {
-    new mapboxgl.Marker().setLngLat(coords).addTo(map);
-  };
 
   return <Container id="map">Map</Container>;
 }
 
 const Container = tw.div`
   flex-1
+  h-1/2
 `;
