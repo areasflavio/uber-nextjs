@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import tw from 'tailwind-styled-components';
 
 import Map from './components/Map';
+import RideSelector from './components/RideSelector';
 
 export default function Confirm({ accessToken }) {
   const [pickupCoords, setPickupCoords] = useState([]);
@@ -33,13 +35,28 @@ export default function Confirm({ accessToken }) {
 
   return (
     <Container>
+      <Link href="/search" passHref>
+        <ButtonContainer>
+          <BackButtonImage
+            src="https://img.icons8.com/ios-filled/50/00000/left.png"
+            alt="Back"
+          />
+        </ButtonContainer>
+      </Link>
+
       <Map
         accessToken={accessToken}
         pickupCoords={pickupCoords}
         dropoffCoords={dropoffCoords}
       />
 
-      <ConfirmContainer></ConfirmContainer>
+      <ConfirmContainer>
+        <RideSelector />
+
+        <ConfirmButtonContainer>
+          <ConfirmButton>Confirm</ConfirmButton>
+        </ConfirmButtonContainer>
+      </ConfirmContainer>
     </Container>
   );
 }
@@ -47,11 +64,34 @@ export default function Confirm({ accessToken }) {
 const Container = tw.div`
   flex flex-col
   w-full h-screen
-  bg-gray-200
+  relative
+`;
+
+const ButtonContainer = tw.button`
+  absolute z-10 drop-shadow
+  bg-white rounded-full
+  top-4 left-4
+`;
+
+const BackButtonImage = tw.img`
+  h-12
 `;
 
 const ConfirmContainer = tw.section`
-  flex flex-1
+  flex flex-col flex-1
+  h-1/2
+
+`;
+
+const ConfirmButtonContainer = tw.div`
+  border-t-2 flex
+`;
+
+const ConfirmButton = tw.button`
+  w-full
+  mx-2 my-4 px-4 py-4
+  text-xl text-white
+  bg-black
 `;
 
 export async function getStaticProps() {
