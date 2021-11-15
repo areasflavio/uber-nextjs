@@ -1,7 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useRouter } from 'next/router';
 import tw from 'tailwind-styled-components';
+import { signInWithPopup, onAuthStateChanged } from 'firebase/auth';
+
+import { auth, provider } from '../firebase';
 
 export default function Login() {
+  const router = useRouter();
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        router.push('/');
+      }
+    });
+  }, [router]);
+
   return (
     <Container>
       <UberLogo src="https://i.ibb.co/ZMhy8ws/uber-logo.jpg" alt="Uber" />
@@ -12,7 +26,7 @@ export default function Login() {
         alt="Login Image"
       />
 
-      <SignInButtonContainer>
+      <SignInButtonContainer onClick={() => signInWithPopup(auth, provider)}>
         <SignInButton>Sign in with Google</SignInButton>
       </SignInButtonContainer>
     </Container>
