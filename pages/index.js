@@ -1,13 +1,31 @@
-import Head from 'next/head';
-import Image from 'next/image';
-import styles from '../styles/Home.module.css';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-
+import { useRouter } from 'next/router';
 import tw from 'tailwind-styled-components';
+import { signOut, onAuthStateChanged } from 'firebase/auth';
+
+import { auth } from '../firebase';
 
 import Map from './components/Map';
 
 export default function Home({ accessToken }) {
+  const [user, setUser] = useState(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser({
+          name: user.displayName,
+          avatar_url: user.photoURL,
+        });
+      } else {
+        setUser(null);
+        router.push('/login');
+      }
+    });
+  }, [router, user]);
+
   return (
     <Container>
       <Map accessToken={accessToken} />
@@ -18,13 +36,16 @@ export default function Home({ accessToken }) {
             alt="Uber"
           />
 
-          <ProfileContainer>
-            <UserName>Flávio Arêas</UserName>
-            <UserAvatar
-              src="https://github.com/areasflavio.png"
-              alt="Flávio Arêas"
-            ></UserAvatar>
-          </ProfileContainer>
+          {user && (
+            <ProfileContainer>
+              <UserName>{user.name}</UserName>
+              <UserAvatar
+                src={user.avatar_url}
+                alt={user.name}
+                onClick={() => signOut(auth)}
+              ></UserAvatar>
+            </ProfileContainer>
+          )}
         </Header>
 
         <ButtonsContainer>
@@ -85,6 +106,7 @@ const UserName = tw.div`
 
 const UserAvatar = tw.img`
   h-12 w-12 rounded-full border border-gray-200 p-px
+  cursor-pointer
 `;
 
 const ButtonsContainer = tw.div`
