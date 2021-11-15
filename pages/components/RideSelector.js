@@ -1,4 +1,5 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import tw from 'tailwind-styled-components';
 
 export const ridesList = [
@@ -29,7 +30,32 @@ export const ridesList = [
   },
 ];
 
-export default function RideSelector() {
+export default function RideSelector({
+  accessToken,
+  pickupCoords,
+  dropoffCoords,
+}) {
+  const [rideDuration, setRideDuration] = useState(0);
+
+  useEffect(() => {
+    try {
+      axios
+        .get(
+          `https://api.mapbox.com/directions/v5/mapbox/driving/${pickupCoords[0]},${pickupCoords[1]};${dropoffCoords[0]},${dropoffCoords[1]}`,
+          {
+            params: {
+              access_token: String(accessToken),
+            },
+          }
+        )
+        .then((response) =>
+          setRideDuration(response.data.routes[0]?.duration / 100)
+        );
+    } catch (err) {
+      console.error(err);
+    }
+  }, [accessToken, pickupCoords, dropoffCoords]);
+
   return (
     <Container>
       <Title>Choose a ride, or swipe for more</Title>
@@ -44,7 +70,9 @@ export default function RideSelector() {
               <RideETA>5 min away</RideETA>
             </RideDetails>
 
-            <RidePrice>$20.32</RidePrice>
+            <RidePrice>
+              {'$' + (rideDuration * ride.multiplier).toFixed(2)}
+            </RidePrice>
           </Ride>
         ))}
       </RidesList>

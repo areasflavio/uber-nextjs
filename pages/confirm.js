@@ -8,8 +8,8 @@ import Map from './components/Map';
 import RideSelector from './components/RideSelector';
 
 export default function Confirm({ accessToken }) {
-  const [pickupCoords, setPickupCoords] = useState([]);
-  const [dropoffCoords, setDropoffCoords] = useState([]);
+  const [pickupCoords, setPickupCoords] = useState([0, 0]);
+  const [dropoffCoords, setDropoffCoords] = useState([0, 0]);
 
   const router = useRouter();
   const { pickup, dropoff } = router.query;
@@ -51,7 +51,11 @@ export default function Confirm({ accessToken }) {
       />
 
       <ConfirmContainer>
-        <RideSelector />
+        <RideSelector
+          accessToken={accessToken}
+          pickupCoords={pickupCoords}
+          dropoffCoords={dropoffCoords}
+        />
 
         <ConfirmButtonContainer>
           <ConfirmButton>Confirm</ConfirmButton>
